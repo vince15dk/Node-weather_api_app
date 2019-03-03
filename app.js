@@ -1,7 +1,14 @@
 const request = require('request')
+const chalk = require('chalk')
+const {url} = require('./config/config')
 
-const url = "https://api.darksky.net/forecast/785fa09a9c9259fe91a7c9c40930b6c4/37.8267,-122.4233"
-
-request({url},(err, response)=>{
-    const data = JSON.parse(response.body)
+request({url, json: true},(err, response)=>{
+    if(err){
+        console.log(chalk.bold.red.inverse('error exists'))
+    } else {
+        console.log(`It is currently ${chalk.bold.blue.inverse(response.body.currently.temperature)}`)
+        console.log(`${chalk.bold.blue.inverse(response.body.daily.summary)}`)
+        console.log(`${chalk.bold.red.inverse(response.body.daily.data[0].summary)}`)
+    }
+   
 })
