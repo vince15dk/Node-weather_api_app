@@ -3,15 +3,15 @@ const {forecastToken} = require('../config/config')
 
 const forecast = (latitude, longitude, callback)=>{
     request({url: `https://api.darksky.net/forecast/${forecastToken}/${latitude},${longitude}?units=si&lang=ko`,
-    json: true},(err, response)=>{
+    json: true},(err, {body})=>{
         if(err){
             callback('Unable to connect to weather service!', undefined)
-        } else if (response.body.error){
+        } else if (body.error){
             callback('Unable to find location', undefined)
         } else {
             callback(undefined, {
-                temperature: response.body.currently.temperature,
-                daily: response.body.daily.summary,
+                temperature: body.currently.temperature,
+                daily: body.daily.summary,
 
             })
         }
